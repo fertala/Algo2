@@ -22,4 +22,8 @@ public class Edge {
         this(label, color, neighbor1, vertexColor);
         vertices.add(new Vertex(neighbor2, vertexColor2));
     }
+
+    public Graph.Color getColor() {
+        return color;
+    }
 }
