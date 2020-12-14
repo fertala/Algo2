@@ -17,13 +17,14 @@ public class Vertex {
     }
 
     public boolean isBlueNeighbor(){
-        return neighbor.getColor() == Graph.Color.BLUE;
+        return neighbor.isBlue();
     }
 
     public boolean isRedNeighbor(){
-        return neighbor.getColor() == Graph.Color.RED;
+        return neighbor.isRed();
     }
 
-
-
+    public void transformNeighbor() {
+        neighbor.changeColor(color);
+    }
 }

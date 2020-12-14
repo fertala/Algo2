@@ -26,4 +26,22 @@ public class Edge {
     public Graph.Color getColor() {
         return color;
     }
+
+    public boolean isRed() {
+        return color == Graph.Color.RED;
+    }
+
+    public boolean isBlue() {
+        return color == Graph.Color.BLUE;
+    }
+
+    public void transformNeighbors() {
+        for(Vertex v : vertices){
+            v.transformNeighbor();
+        }
+    }
+
+    public void changeColor(Graph.Color color) {
+        this.color = color;
+    }
 }
