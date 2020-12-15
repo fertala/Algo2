@@ -13,6 +13,7 @@ public class Graph {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final int    NUM_EDGE = 100 ;
 
     List<Edge> edges = new ArrayList<>();
     List<Edge> redSequence = new ArrayList<>();
@@ -57,6 +58,37 @@ public class Graph {
         }
         else
             System.out.println("Unknown edge");
+    }
+    /**
+     *@param p la probabilité pour un sommet d’être rouge,
+     *@param q la probabilité pour un arc d’être bleu.
+     * graphe complet est un graphe simple dont tous les sommets sont adjacents deux à deux vertexs = (n *(n-1))/2
+     */
+
+    public void generateGraph(double p  , double q){
+        String name = "label_";
+        Color color ;
+        for(int i = 0; i<NUM_EDGE ; i++ ){
+            color = getRandomColor(p);
+            Edge edge = new Edge(name+i,color);
+            this.edges.add(edge);
+        }
+        for(Edge edge1 : edges){
+            for(Edge edge2 : edges){
+                if(edge1 != edge2) {
+                    color = getRandomColor(q);
+                    edge1.addNeighbor(edge2,color);
+                }
+            }
+        }
+    }
+
+    public Color getRandomColor(double p){
+        double rand = Math.random();
+        if(rand < p )
+            return Color.RED;
+        else
+            return Color.BLUE;
     }
 
     @Override

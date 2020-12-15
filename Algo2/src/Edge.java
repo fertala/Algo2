@@ -18,6 +18,12 @@ public class Edge {
         this.color = color;
     }
 
+    Edge(String label, Graph.Color color ,List<Vertex> outVertices , List<Edge> inEdges){
+        this(label, color);
+        this.outVertices = outVertices ;
+        this.inEdges = inEdges;
+    }
+
     Edge(String label, Graph.Color color, Edge neighbor1, Graph.Color vertexColor){
         this(label, color);
         outVertices.add(new Vertex(neighbor1, vertexColor));
@@ -26,6 +32,12 @@ public class Edge {
     Edge(String label, Graph.Color color, Edge neighbor1, Graph.Color vertexColor, Edge neighbor2, Graph.Color vertexColor2){
         this(label, color, neighbor1, vertexColor);
         outVertices.add(new Vertex(neighbor2, vertexColor2));
+    }
+    public void setOutVertices(List<Vertex> outVertices){
+        this.outVertices = outVertices ;
+    }
+    public void setInEdges(List<Edge> inEdges){
+        this.inEdges = inEdges ;
     }
 
     public Graph.Color getColor() {
@@ -65,25 +77,15 @@ public class Edge {
     }
 
     public void addNeighbor(Edge edge, Graph.Color color) {
-        if(outVertices.size() < 2){
-            if(edge.isNotFull())
-                if(edge.isNeighbor(this)){
-                    System.out.println(this + " already neighbor of " + edge);
-                }
-                else if (!isNeighbor(edge)) {
-                    Vertex v = new Vertex(edge, color);
-                    outVertices.add(v);
-                    //need to notify the neighbor if deletion
-                    edge.addInNeighbor(this);
-                }
-                else
-                    System.out.println(edge.getLabel() + " already neighbor");
-            else
-                System.out.println(edge.getLabel() + " already full");
-        } else {
-            System.out.println(label + " already full");
+        if (!isNeighbor(edge)) {
+            Vertex v = new Vertex(edge, color);
+            outVertices.add(v);
+            edge.addInNeighbor(this);
         }
-    }
+        else
+            System.out.println(edge.getLabel() + " already neighbor");
+        }
+
 
     private void addInNeighbor(Edge e) {
         inEdges.add(e);
