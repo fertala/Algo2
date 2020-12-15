@@ -43,8 +43,9 @@ public class Vertex {
         StringBuilder sb = new StringBuilder();
         if(isRed()) sb.append(Graph.ANSI_RED);
         else sb.append(Graph.ANSI_BLUE);
-        sb.append(" ---- ");
+        sb.append(" ----> ");
         sb.append(Graph.ANSI_RESET);
+        sb.append(neighbor);
         return sb.toString();
     }
 }

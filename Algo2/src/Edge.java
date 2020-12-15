@@ -114,33 +114,24 @@ public class Edge {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if(outVertices.size() > 1){
-            Edge neighbor2 = outVertices.get(1).getNeighbor();
-            if(neighbor2.isRed()){
+        for(Vertex v : outVertices){
+            if (isRed())
                 sb.append(Graph.ANSI_RED);
-            }
-            else sb.append(Graph.ANSI_BLUE);
-            sb.append(neighbor2.getLabel());
+            else
+                sb.append(Graph.ANSI_BLUE);
+            sb.append(label);
             sb.append(Graph.ANSI_RESET);
-            sb.append(" <");
-            sb.append(outVertices.get(1));
+            sb.append(v);
+            sb.append("\n");
         }
-        if(isRed()) sb.append(Graph.ANSI_RED);
-        else sb.append(Graph.ANSI_BLUE);
-        sb.append(label);
-        sb.append(Graph.ANSI_RESET);
-        if(outVertices.size() > 0){
-            sb.append(outVertices.get(0));
-            sb.append("> ");
-            Edge neighbor = outVertices.get(0).getNeighbor();
-            if(neighbor.isRed()){
+        if(outVertices.isEmpty()) {
+            if (isRed())
                 sb.append(Graph.ANSI_RED);
-            }
-            else sb.append(Graph.ANSI_BLUE);
-            sb.append(neighbor.getLabel());
+            else
+                sb.append(Graph.ANSI_BLUE);
+            sb.append(label);
             sb.append(Graph.ANSI_RESET);
         }
-
         return sb.toString();
     }
 }
