@@ -1,3 +1,5 @@
+import java.util.Collection;
+
 public class Vertex {
 
     Edge neighbor;
@@ -26,5 +28,23 @@ public class Vertex {
 
     public void transformNeighbor() {
         neighbor.changeColor(color);
+    }
+
+    public boolean isRed() {
+        return color == Graph.Color.RED;
+    }
+
+    public boolean isBlue() {
+        return color == Graph.Color.BLUE;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if(isRed()) sb.append(Graph.ANSI_RED);
+        else sb.append(Graph.ANSI_BLUE);
+        sb.append(" ---- ");
+        sb.append(Graph.ANSI_RESET);
+        return sb.toString();
     }
 }
