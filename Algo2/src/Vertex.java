@@ -45,7 +45,10 @@ public class Vertex {
         else sb.append(Graph.ANSI_BLUE);
         sb.append(" ----> ");
         sb.append(Graph.ANSI_RESET);
+        if(neighbor.isRed()) sb.append(Graph.ANSI_RED);
+        else sb.append(Graph.ANSI_BLUE);
         sb.append(neighbor.label);
+        sb.append(Graph.ANSI_RESET);
         return sb.toString();
     }
 }

@@ -9,17 +9,16 @@ public class Main {
 
             Scanner sc= new Scanner(System.in);
             graph.generateGraph(0.30,0.50);
+            System.out.println("number of red edges : " +graph.edges.stream().filter(Edge::isRed).count());
+            System.out.println("number of blue edges : " +graph.edges.stream().filter(Edge::isBlue).count());
+            System.out.println("number of red vertex out  for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isRed()).count());
+            System.out.println("number of blue vertex out for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isBlue()).count());
             while(true) {
                 System.out.println("1 - Add edge");
                 System.out.println("2 - Delete edge");
                 System.out.println("3 - Add neighbor");
                 System.out.println("4 - Print Graph & Red sequence");
                 System.out.println("5 - Exit");
-                System.out.println("number of red edges : " +graph.edges.stream().filter(Edge::isRed).count());
-                System.out.println("number of blue edges : " +graph.edges.stream().filter(Edge::isBlue).count());
-                System.out.println("number of red vertex out  for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isRed()).count());
-                System.out.println("number of blue vertex out for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isBlue()).count());
-
                 switch (sc.nextInt()) {
                     case 1 -> {
                         while(true) {

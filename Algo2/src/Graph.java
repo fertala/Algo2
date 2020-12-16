@@ -13,7 +13,7 @@ public class Graph {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final int    NUM_EDGE = 100 ;
+    public static final int    NUM_EDGE = 5 ;
 
     List<Edge> edges = new ArrayList<>();
     List<Edge> redSequence = new ArrayList<>();
@@ -66,7 +66,7 @@ public class Graph {
      */
 
     public void generateGraph(double p  , double q){
-        String name = "label_";
+        String name = "";
         Color color ;
         for(int i = 0; i<NUM_EDGE ; i++ ){
             color = getRandomColor(p);
