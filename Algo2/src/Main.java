@@ -20,7 +20,7 @@ public class Main {
                 System.out.println("4 - Print Graph & Red sequence");
                 System.out.println("5 - Exit");
                 switch (sc.nextInt()) {
-                    case 1 -> {
+                    case 1 :
                         while(true) {
                             System.out.println("label (type ! to stop)");
                             String label = sc.next();
@@ -29,8 +29,9 @@ public class Main {
                             Graph.Color color = sc.next().equals("r") ? Graph.Color.RED : Graph.Color.BLUE;
                             graph.addEdge(label, color);
                         }
-                    }
-                    case 2 -> {
+                        break;
+
+                    case 2 :
                         while(true) {
                             System.out.println("delete ? (type ! to stop)");
                             String edgeToDelete = sc.next();
@@ -38,8 +39,9 @@ public class Main {
                             graph.deleteEdge(edgeToDelete);
                             System.out.println(graph);
                         }
-                    }
-                    case 3 -> {
+                        break;
+
+                    case 3 :
                         while(true) {
                             System.out.println("from: (type ! to stop)");
                             String edge = sc.next();
@@ -50,9 +52,10 @@ public class Main {
                             Graph.Color vertexColor = sc.next().equals("r") ? Graph.Color.RED : Graph.Color.BLUE;
                             graph.addNeighbor(edge, neighbor, vertexColor);
                         }
-                    }
-                    case 4 -> {System.out.println(graph);}
-                    case 5 -> { return ; }
+                        break;
+
+                    case 4 : {System.out.println(graph);}
+                    case 5 : { return ; }
                 }
             }
         }
