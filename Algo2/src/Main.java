@@ -54,8 +54,13 @@ public class Main {
                         }
                         break;
 
-                    case 4 : {System.out.println(graph);}
-                    case 5 : { return ; }
+                    case 4 :
+                        System.out.println(graph);
+                        break;
+
+                    case 5 :
+                        return ;
+
                 }
             }
         }
