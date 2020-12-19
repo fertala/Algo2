@@ -19,22 +19,21 @@ public class Main {
         }
 
         public static void main(String... args) {
-            Scanner sc= new Scanner(System.in);
-            graph.generateGraph(0.1,0.1);
+            Scanner sc= new Scanner(System.in);/*
             System.out.println("number of red edges : " +graph.edges.stream().filter(Edge::isRed).count());
             System.out.println("number of blue edges : " +graph.edges.stream().filter(Edge::isBlue).count());
             System.out.println("number of red vertex out  for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isRed()).count());
-            System.out.println("number of blue vertex out for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isBlue()).count());
+            System.out.println("number of blue vertex out for first edge k:" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isBlue()).count());*/
             while(true) {
                 System.out.println("1 - Add edge");
                 System.out.println("2 - Delete edge");
                 System.out.println("3 - Add neighbor");
                 System.out.println("4 - Print Graph & Red sequence");
                 System.out.println("5 - solution avec les differences");
-                System.out.println("6 - restart");
+                System.out.println("6 - solution Armand n fois");
                 System.out.println("7 - launch 10 times");
-
-                System.out.println("8 - Exit");
+                System.out.println("8 - restart");
+                System.out.println("9 - Exit");
                 switch (sc.nextInt()) {
                     case 1:
                         while (true) {
@@ -78,11 +77,16 @@ public class Main {
                                 break;
 
                             case 5:
+                                graph.generateGraph(0.1,0.1);
                                 graph.getSolution1();
                                 break;
-                            case 8:
+
+                            case 6 :
+                                System.out.println(graph.getAverageOnXExec(100, 5, 0.1, 0.1, 1));
+                                break;
+                            case 9:
                                 return;
-                            case 6:
+                            case 8:
                                 Main.MainCaller();
                                 return;
                             case 7:
