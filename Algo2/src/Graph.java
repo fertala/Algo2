@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,14 +44,24 @@ public class Graph {
         NUM_EDGE = nbEdges;
         while(i < t) {
             generateGraph(pRedEdge, pRedVertex);
-            if(solution == 1) {
-                solution1();
+            if( solution == 1){
+                getSolution1();
+            }
+            if(solution == 3) {
+                solution3();
             }
             avg += getRedSequence();
             i++;
         }
-        System.out.println(avg);
         return avg / t;
+    }
+    public void getSolution1(){
+        Edge edge ;
+        edge  = bestEdge();
+        while (edge != null){
+            this.deleteEdge(edge);
+            edge  = bestEdge();
+        }
     }
     public void addNeighbor(String edge, String neighbor, Graph.Color vertexColor) {
         Edge first = getEdgeByLabel(edge);
@@ -116,90 +127,6 @@ public class Graph {
         }
     }
 
-    public List<Edge> solution1(){
-        List<Edge> edgesRes = new ArrayList<>();
-        List<Edge> bestRed = new ArrayList<>();
-        List<Edge> bestOnes;
-        do  {
-            bestRed = getEdgesHighestOutRedDegree();
-            bestOnes = new ArrayList<>(bestRed);
-            getEdgesLessOutBlueDegree(bestOnes);
-            if(bestRed.size() + bestOnes.size() > 0)
-                deleteEdge(bestOnes.isEmpty() ? bestRed.isEmpty() ? null : bestRed.get(0) : bestOnes.get(0));
-        } while (bestRed.size() > 0);
-        while (!bestOnes.isEmpty()) {
-            bestOnes.clear();
-            bestOnes = getEdgesLessOutBlueDegree(bestRed);
-            if(bestOnes.isEmpty())
-                break;
-            deleteEdge(bestOnes.get(0));
-        }
-        Iterator<Edge> it = edges.iterator();
-        while(it.hasNext()) {
-            Edge e = it.next();
-            if (e.isRed()) {
-                e.transformNeighbors();
-                redSequence.add(e);
-                it.remove();
-            }
-        }
-
-        return edgesRes;
-    }
-
-    private List<Edge> getEdgesLessOutBlueDegree(List<Edge> bestRed) {
-        int minBlueOut = 0;
-        Iterator<Edge> it = bestRed.iterator();
-        while(it.hasNext()){
-            Edge e = it.next();
-            if(e.isRed()) {
-                int count = e.getCountBlueOutDegree();
-                if (count < minBlueOut) {
-                    minBlueOut = count;
-                } else {
-                    it.remove();
-                }
-            } else it.remove();
-        }
-        it = bestRed.iterator();
-        while(it.hasNext()){
-            Edge e = it.next();
-            if(e.getCountBlueOutDegree() > minBlueOut)
-                it.remove();
-        }
-        return bestRed;
-    }
-
-    private List<Edge> getEdgesHighestOutRedDegree() {
-        List<Edge> candidates = new ArrayList<>();
-        int maxRedOut = 0;
-        for(Edge e : edges) {
-            if (e.isRed()) {
-                int count = e.getCountRedOutDegree();
-                if (count > maxRedOut) {
-                    maxRedOut = count;
-                    candidates.add(e);
-                }
-            }
-        }
-        Iterator<Edge> it = candidates.iterator();
-        while(it.hasNext()){
-            Edge e = it.next();
-            if(e.getCountRedOutDegree() < maxRedOut)
-                it.remove();
-        }
-        return candidates;
-    }
-
-    public void getSolution1(){
-        Edge edge ;
-        edge  = bestEdge();
-        while (edge != null){
-            this.deleteEdge(edge);
-            System.out.println(this);
-            edge  = bestEdge();
-        }
-    }
 
     public void getBestSolution(){
         Edge edge ;
@@ -230,6 +157,12 @@ public class Graph {
         return this.edges.stream().filter(Edge::isRed).filter(Edge::zeroOut).findFirst().orElse(null);
     }
 
+    public void solution3(){
+        while(true){
+           Edge candidate =  edges.stream().filter(Edge::isRed).min(Comparator.comparingInt(Edge::getCountBlueOutDegree)).orElse(null);
+           if (candidate == null) break;
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

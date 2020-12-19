@@ -30,11 +30,6 @@ public class Main {
                 System.out.println("3 - Add neighbor");
                 System.out.println("4 - Print Graph & Red sequence");
                 System.out.println("5 - solution avec les differences");
-                System.out.println("6 - solution Armand n fois");
-                System.out.println("7 - launch 10 times");
-                System.out.println("8 - restart");
-                System.out.println("9 - Solution Best");
-                System.out.println("10 - Exit");
                 switch (sc.nextInt()) {
                     case 1:
                         while (true) {
@@ -77,29 +72,12 @@ public class Main {
                                 System.out.println(graph);
                                 break;
 
-                            case 5:
-                                graph.generateGraph(0.1,0.1);
-                                graph.getSolution1();
+                            case 5 :
+                                System.out.println("Choose a solution to exec: ");
+                                System.out.println(graph.getAverageOnXExec(100, 1000, 0.1, 0.1, sc.nextInt()));
                                 break;
 
-                            case 6 :
-                                System.out.println(graph.getAverageOnXExec(100, 5, 0.1, 0.1, 1));
-                                break;
-                            case 9:
-                                graph.generateGraph(0.1,0.1);
-                                graph.getBestSolution();
-                                break;
-                            case 10:
-                                return;
-                            case 8:
-                                Main.MainCaller();
-                                return;
-                            case 7:
-                                launche10times();
-                                return;
                         }
-
-
                     }
                 }
 
