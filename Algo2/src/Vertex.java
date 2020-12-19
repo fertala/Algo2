@@ -6,42 +6,16 @@ public class Vertex implements Comparable {
 
 
     Graph.Color color;
-    List<Edge> outVertices = new ArrayList<>();
+    List<Edge> outEdges = new ArrayList<>();
     List<Vertex> inEdges = new ArrayList<>();
     String label;
-    boolean printed = false;
 
-    /* No neighbors */
     Vertex(String label, Graph.Color color){
         this.label = label;
         this.color = color;
     }
 
-    Vertex(String label, Graph.Color color , List<Edge> outVertices , List<Vertex> inEdges){
-        this(label, color);
-        this.outVertices = outVertices ;
-        this.inEdges = inEdges;
-    }
 
-    Vertex(String label, Graph.Color color, Vertex neighbor1, Graph.Color vertexColor){
-        this(label, color);
-        outVertices.add(new Edge(neighbor1, vertexColor));
-    }
-
-    Vertex(String label, Graph.Color color, Vertex neighbor1, Graph.Color vertexColor, Vertex neighbor2, Graph.Color vertexColor2){
-        this(label, color, neighbor1, vertexColor);
-        outVertices.add(new Edge(neighbor2, vertexColor2));
-    }
-    public void setOutVertices(List<Edge> outVertices){
-        this.outVertices = outVertices ;
-    }
-    public void setInEdges(List<Vertex> inEdges){
-        this.inEdges = inEdges ;
-    }
-
-    public Graph.Color getColor() {
-        return color;
-    }
 
     public boolean isRed() {
         return color == Graph.Color.RED;
@@ -52,7 +26,7 @@ public class Vertex implements Comparable {
     }
 
     public void transformNeighbors() {
-        for(Edge v : outVertices){
+        for(Edge v : outEdges){
             v.transformNeighbor();
         }
         for(Vertex e : inEdges){
@@ -62,12 +36,11 @@ public class Vertex implements Comparable {
 
     private void deleteNeighbor(Vertex vertex) {
         if(isNeighbor(vertex)){
-            outVertices.removeIf(v->v.getNeighbor().equals(vertex));
+            outEdges.removeIf(v->v.getNeighbor().equals(vertex));
         }
     }
 
     public void changeColor(Graph.Color color) {
-        //System.out.println(label + " old color : "+ this.color.name() + " new color " + color.name());
         this.color = color;
     }
 
@@ -78,36 +51,48 @@ public class Vertex implements Comparable {
     public void addNeighbor(Vertex vertex, Graph.Color color) {
         if (!isNeighbor(vertex)) {
             Edge v = new Edge(vertex, color);
-            outVertices.add(v);
+            outEdges.add(v);
             vertex.addInNeighbor(this);
         }
         else
             System.out.println(vertex.getLabel() + " already neighbor");
         }
 
-    public boolean zeroOut(){
-        return this.outVertices.size() == 0 ;
-    }
     private void addInNeighbor(Vertex e) {
         inEdges.add(e);
     }
 
     private boolean isNeighbor(Vertex vertex) {
-        return outVertices.stream().anyMatch(v->v.getNeighbor().equals(vertex));
+        return outEdges.stream().anyMatch(v->v.getNeighbor().equals(vertex));
     }
 
-    private boolean isNotFull() {
-        return outVertices.size() < 2;
+    public int differenceOutEdges(){
+        return (int) (outEdges.stream().filter(Edge::isRed).count()  -  outEdges.stream().filter(Edge::isBlue).count());
     }
 
-    public int differenceOutVertices(){
-        return (int) (outVertices.stream().filter(Edge::isRed).count()  -  outVertices.stream().filter(Edge::isBlue).count());
+    public int impact(){
+        int goodImpact = 0;
+        for(Edge e : outEdges){
+            if(e.isRed() && e.isBlueNeighbor()){
+                goodImpact += 50;
+            }
+            if(e.isBlue() && e.isRedNeighbor()){
+                goodImpact += 0;
+            }
+            if(e.isBlue() && e.isBlueNeighbor()){
+                goodImpact += 100;
+            }
+            if(e.isRed() && e.isRedNeighbor()){
+                goodImpact += -50;
+            }
+        }
+        if(outEdges.isEmpty()){
+            return 1000000000;
+        }
+       return goodImpact / outEdges.size();
     }
 
-    public boolean outVertices(){
-        return outVertices.stream().anyMatch(Edge::isRed);
 
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -124,7 +109,7 @@ public class Vertex implements Comparable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(Edge v : outVertices){
+        for(Edge v : outEdges){
             if (isRed())
                 sb.append(Graph.ANSI_RED);
             else
@@ -134,7 +119,7 @@ public class Vertex implements Comparable {
             sb.append(v);
             sb.append("\n");
         }
-        if(outVertices.isEmpty()) {
+        if(outEdges.isEmpty()) {
             if (isRed())
                 sb.append(Graph.ANSI_RED);
             else
@@ -148,31 +133,16 @@ public class Vertex implements Comparable {
     @Override
     public int compareTo(Object o) {
         Vertex compareToVertex = (Vertex) o;
-        return Integer.compare(this.differenceOutVertices(), compareToVertex.differenceOutVertices());
-    }
-
-    public int comparing(Object o) {
-        Vertex compareToVertex = (Vertex) o;
-        if(!(this.outVertices() == compareToVertex.outVertices())) return 0 ;
-        if(this.outVertices() && !compareToVertex.outVertices()) return 1;
-        if(this.outVertices() == compareToVertex.outVertices()) return 1 ;
-        return -1;
+        return Integer.compare(this.differenceOutEdges(), compareToVertex.differenceOutEdges());
     }
 
     public int getCountBlueOutDegree() {
         int count = 0;
-        for(Edge v : outVertices){
-            if (v.isBlue() && v.getNeighbor().isRed()) count++;
+        for(Edge v : outEdges){
+            if (v.isBlue()) count++;
         }
         return  count;
     }
 
-    public int getCountRedOutDegree() {
-        int count = 0;
-        for(Edge v : outVertices){
-            if (v.isRed()) count++;
-        }
-        return  count;
-    }
 
 }

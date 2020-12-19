@@ -8,10 +8,6 @@ public class Edge {
         this.neighbor = e;
     }
 
-    public Graph.Color getColor() {
-        return color;
-    }
-
     public Vertex getNeighbor() {
         return neighbor;
     }

@@ -1,13 +1,7 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Graph {
-
-
-    public int getRedSequence() {
-       return redSequence.size();
-    }
 
     public enum Color {
         RED, BLUE;
@@ -15,7 +9,9 @@ public class Graph {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
-    public static int    NUM_EDGE = 100 ;
+
+
+                            /** PART 1 : OPERATIONS ON THE GRAPH*/
 
     List<Vertex> vertices = new ArrayList<>();
     List<Vertex> redSequence = new ArrayList<>();
@@ -37,35 +33,30 @@ public class Graph {
         return vertices.stream().filter(e->e.getLabel().equals(label)).findFirst().orElse(null);
     }
 
-    public int getAverageOnXExec(int nbEdges, int t, double pRedVertex  , double pRedEdge , int solution){
+    public double runHeuristicXTimes(int nbVertices, int t, double pRedVertex  , double pBlueEdge , int heuristic){
         int i = 0;
-        int avg = 0;
-        NUM_EDGE = nbEdges;
+        double avg = 0;
         while(i < t) {
-            generateGraph(pRedVertex,pRedEdge);
-            if( solution == 1){
-                getSolution1();
-            }
-            if(solution == 3) {
-                solution3();
-            }
-
-            if(solution == 5) {
-                solution5();
-            }
-            avg += getRedSequence();
+            generateGraph(pRedVertex,pBlueEdge, nbVertices);
+            avg += runHeuristic(heuristic);
             i++;
         }
         return avg / t;
     }
-    public void getSolution1(){
-        Vertex vertex;
-        vertex = bestEdge();
-        while (vertex != null){
-            this.deleteEdge(vertex);
-            vertex = bestEdge();
+
+    public int runHeuristic(int heuristicNo) {
+        if(heuristicNo==1){
+            heuristic1();
         }
+        if(heuristicNo==2){
+            heuristic2();
+        }
+        int sizeRedSequence = redSequence.size();
+        redSequence.clear();
+        vertices.clear();
+        return sizeRedSequence;
     }
+
     public void addNeighbor(String edges, String neighbor, Graph.Color vertexColor) {
         Vertex first = getEdgeByLabel(edges);
         Vertex second = getEdgeByLabel(neighbor);
@@ -78,11 +69,6 @@ public class Graph {
                 vertex.transformNeighbors();
                 this.vertices.remove(vertex);
                 redSequence.add(vertex);
-                if(this.vertices.isEmpty()){
-                    System.out.println("Graph empty");
-                    System.out.println(this);
-                    System.exit(1);
-                }
             }
             else
                 System.out.println("Cannot remove blue node");
@@ -90,18 +76,19 @@ public class Graph {
         else
             System.out.println("Unknown edges");
     }
+
     /**
-     *@param pRedEdge la probabilité pour un sommet d’être rouge,
-     *@param pRedVertex la probabilité pour un arc d’être bleu.
+     *@param pRedVertex la probabilité pour un sommet d’être rouge,
+     *@param pBlueEdge la probabilité pour un arc d’être bleu.
      * graphe complet est un graphe simple dont tous les sommets sont adjacents deux à deux vertexs = (n *(n-1))/2
      */
 
-    public void generateGraph(double pRedVertex  , double pRedEdge){
+    public void generateGraph(double pRedVertex  , double pBlueEdge, int nbVertices){
         vertices.clear();
         redSequence.clear();
         String name = "";
         Color color ;
-        for(int i = 0; i<NUM_EDGE ; i++ ){
+        for(int i = 0; i < nbVertices; i++ ){
             color = getRandomColor(pRedVertex);
             Vertex vertex = new Vertex(name+i,color);
             this.vertices.add(vertex);
@@ -109,7 +96,7 @@ public class Graph {
         for(Vertex vertex1 : vertices){
             for(Vertex vertex2 : vertices){
                 if(vertex1 != vertex2) {
-                    color = getRandomColor(pRedEdge);
+                    color = getRandomColor(1 - pBlueEdge);
                     vertex1.addNeighbor(vertex2,color);
                 }
             }
@@ -124,57 +111,37 @@ public class Graph {
             return Color.BLUE;
     }
 
-    public void deleteSequence(List<Vertex> edges){
-        for(Vertex e : edges){
-            deleteEdge(e);
-        }
-    }
+                                /** PART 2 : Heuristics */
 
-
-    public void getBestSolution(){
+    public void heuristic1(){
         Vertex vertex;
         vertex = bestEdge();
         while (vertex != null){
             this.deleteEdge(vertex);
-            System.out.println(this);
             vertex = bestEdge();
         }
     }
 
-    public Vertex candidateEdge(){
-
-        Vertex vertex = this.vertices.stream().filter(Vertex::isRed).sorted(Vertex::comparing).findFirst().orElse(null);
-        return vertex;
-    }
-
-
     public Vertex bestEdge(){
-        //Edge edges  = findZeroOut();
-       // if(edges == null)
-        Vertex vertex = this.vertices.stream().filter(Vertex::isRed).sorted(Vertex::compareTo).findFirst().orElse(null);
-        return vertex;
+        return this.vertices.stream().filter(Vertex::isRed).min(Vertex::compareTo).orElse(null);
     }
 
-
-    public Vertex findZeroOut(){
-        return this.vertices.stream().filter(Vertex::isRed).filter(Vertex::zeroOut).findFirst().orElse(null);
-    }
-
-    public void solution3(){
+    public void heuristic2(){
         while(true){
-           Vertex candidate =  vertices.stream().filter(Vertex::isRed).findFirst().orElse(null);
+            Vertex candidate =  vertices.stream().filter(Vertex::isRed).max(Comparator.comparingInt(Vertex::getCountBlueOutDegree)).orElse(null);
            if (candidate == null) break;
-            deleteEdge(candidate);
+           deleteEdge(candidate);
         }
     }
 
-    public void solution5(){
+    public void heuristic3(){
         while(true){
-            Vertex candidate =  vertices.stream().filter(Vertex::isRed).max(Comparator.comparingInt(Vertex::getCountRedOutDegree)).orElse(null);
+            Vertex candidate =  vertices.stream().filter(Vertex::isRed).max(Comparator.comparingInt(Vertex::impact)).orElse(null);
             if (candidate == null) break;
             deleteEdge(candidate);
         }
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
