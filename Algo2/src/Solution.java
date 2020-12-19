@@ -11,21 +11,21 @@ public class Solution {
     }
 
     public void getSolution1(){
-        Edge edge = graph.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
-        while (edge != null){
-            this.graph.deleteEdge(edge);
+        Vertex vertex = graph.vertices.stream().filter(Vertex::isRed).sorted(Vertex::compareTo).findFirst().orElse(null);
+        while (vertex != null){
+            this.graph.deleteEdge(vertex);
             System.out.println(graph);
-            edge = graph.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+            vertex = graph.vertices.stream().filter(Vertex::isRed).sorted(Vertex::compareTo).findFirst().orElse(null);
         }
     }
 
     public void getSolution(){
         boolean redFind;
-        Edge best = graph.edges.get(0);
+        Vertex best = graph.vertices.get(0);
         do {
             redFind = false ;
-            for(Edge edge : graph.edges){
-                if(edge.isRed()){
+            for(Vertex vertex : graph.vertices){
+                if(vertex.isRed()){
                    redFind =true ;
 
                 }
