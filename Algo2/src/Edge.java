@@ -136,4 +136,21 @@ public class Edge {
         }
         return sb.toString();
     }
+
+    public int getCountBlueOutDegree() {
+        int count = 0;
+        for(Vertex v : outVertices){
+            if (v.isBlue() && v.getNeighbor().isRed()) count++;
+        }
+        return  count;
+    }
+
+    public int getCountRedOutDegree() {
+        int count = 0;
+        for(Vertex v : outVertices){
+            if (v.isRed() && v.getNeighbor().isRed()) count++;
+        }
+        return  count;
+    }
+
 }
