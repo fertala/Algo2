@@ -44,6 +44,9 @@ public class Graph {
         NUM_EDGE = nbEdges;
         while(i < t) {
             generateGraph(pRedEdge, pRedVertex);
+            if( solution == 1){
+                getSolution1();
+            }
             if(solution == 3) {
                 solution3();
             }
@@ -51,6 +54,14 @@ public class Graph {
             i++;
         }
         return avg / t;
+    }
+    public void getSolution1(){
+        Edge edge ;
+        edge  = bestEdge();
+        while (edge != null){
+            this.deleteEdge(edge);
+            edge  = bestEdge();
+        }
     }
     public void addNeighbor(String edge, String neighbor, Graph.Color vertexColor) {
         Edge first = getEdgeByLabel(edge);
