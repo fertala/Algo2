@@ -105,9 +105,7 @@ public class Vertex implements Comparable {
     }
 
     public boolean outVertices(){
-        if (outVertices.stream().filter(Edge::isRed).count()>0)
-            return true;
-        return false;
+        return outVertices.stream().anyMatch(Edge::isRed);
 
     }
 
@@ -150,9 +148,7 @@ public class Vertex implements Comparable {
     @Override
     public int compareTo(Object o) {
         Vertex compareToVertex = (Vertex) o;
-        if(this.differenceOutVertices() == compareToVertex.differenceOutVertices()) return 0 ;
-        if(this.differenceOutVertices() > compareToVertex.differenceOutVertices()) return 1;
-        return -1;
+        return Integer.compare(this.differenceOutVertices(), compareToVertex.differenceOutVertices());
     }
 
     public int comparing(Object o) {
