@@ -201,6 +201,23 @@ public class Graph {
         }
     }
 
+    public void getBestSolution(){
+        Edge edge ;
+        edge  = bestEdge();
+        while (edge != null){
+            this.deleteEdge(edge);
+            System.out.println(this);
+            edge  = bestEdge();
+        }
+    }
+
+    public Edge candidateEdge(){
+
+        Edge edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::comparing).findFirst().orElse(null);
+        return edge ;
+    }
+
+
     public Edge bestEdge(){
         //Edge edge  = findZeroOut();
        // if(edge == null)

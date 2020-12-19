@@ -105,6 +105,13 @@ public class Edge implements Comparable {
         return (int) (outVertices.stream().filter(Vertex::isRed).count()  -  outVertices.stream().filter(Vertex::isBlue).count());
     }
 
+    public boolean outVertices(){
+        if (outVertices.stream().filter(Vertex::isRed).count()>0)
+            return true;
+        return false;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -146,6 +153,14 @@ public class Edge implements Comparable {
         Edge compareToEdge = (Edge) o;
         if(this.differenceOutVertices() == compareToEdge.differenceOutVertices()) return 0 ;
         if(this.differenceOutVertices() > compareToEdge.differenceOutVertices()) return 1;
+        return -1;
+    }
+
+    public int comparing(Object o) {
+        Edge compareToEdge = (Edge) o;
+        if(this.outVertices() == compareToEdge.outVertices()==false) return 0 ;
+        if(this.outVertices()==true && compareToEdge.outVertices()==false) return 1;
+        if(this.outVertices() == compareToEdge.outVertices()==true) return 1 ;
         return -1;
     }
 

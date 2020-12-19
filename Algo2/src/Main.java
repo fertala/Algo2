@@ -33,7 +33,8 @@ public class Main {
                 System.out.println("6 - solution Armand n fois");
                 System.out.println("7 - launch 10 times");
                 System.out.println("8 - restart");
-                System.out.println("9 - Exit");
+                System.out.println("9 - Solution Best");
+                System.out.println("10 - Exit");
                 switch (sc.nextInt()) {
                     case 1:
                         while (true) {
@@ -85,6 +86,10 @@ public class Main {
                                 System.out.println(graph.getAverageOnXExec(100, 5, 0.1, 0.1, 1));
                                 break;
                             case 9:
+                                graph.generateGraph(0.1,0.1);
+                                graph.getBestSolution();
+                                break;
+                            case 10:
                                 return;
                             case 8:
                                 Main.MainCaller();
@@ -93,6 +98,8 @@ public class Main {
                                 launche10times();
                                 return;
                         }
+
+
                     }
                 }
 
