@@ -191,6 +191,28 @@ public class Graph {
         return candidates;
     }
 
+    public void getSolution1(){
+        Edge edge ;
+        edge  = bestEdge();
+        while (edge != null){
+            this.deleteEdge(edge);
+            System.out.println(this);
+            edge  = bestEdge();
+        }
+    }
+
+    public Edge bestEdge(){
+        //Edge edge  = findZeroOut();
+       // if(edge == null)
+        Edge edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+        return edge ;
+    }
+
+
+    public Edge findZeroOut(){
+        return this.edges.stream().filter(Edge::isRed).filter(Edge::zeroOut).findFirst().orElse(null);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -200,7 +222,9 @@ public class Graph {
             sb.append("\n");
         }
         sb.append(ANSI_RED);
-        sb.append("Red Sequence: (size = ").append(redSequence.size()).append(" [ ");
+        sb.append("Red Sequence de taille ");
+        sb.append(redSequence.size());
+        sb.append(": [ ");
         for(Edge e : redSequence){
             sb.append(e.getLabel()).append(" ");
         }
