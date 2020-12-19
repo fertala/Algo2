@@ -49,6 +49,9 @@ public class Graph {
             if(solution == 3) {
                 solution3();
             }
+            if(solution == 4) {
+                solution4();
+            }
 
             if(solution == 5) {
                 solution5();
@@ -131,13 +134,12 @@ public class Graph {
     }
 
 
-    public void getBestSolution(){
+    public void solution4(){
         Vertex vertex;
-        vertex = bestEdge();
+        vertex = candidateEdge();
         while (vertex != null){
             this.deleteEdge(vertex);
-            System.out.println(this);
-            vertex = bestEdge();
+            vertex = candidateEdge();
         }
     }
 
