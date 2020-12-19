@@ -13,14 +13,17 @@ public class Graph {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final int    NUM_EDGE = 5 ;
+    public static final int    NUM_EDGE = 100 ;
 
     List<Edge> edges = new ArrayList<>();
+    List<Edge> redEdges = new ArrayList<>();
     List<Edge> redSequence = new ArrayList<>();
 
     public void addEdge(String label, Color color) {
         if(getEdgeByLabel(label) == null) {
             edges.add(new Edge(label, color));
+            if(color == Color.RED)
+                redEdges.add(new Edge(label, color));
             System.out.println("Edge " + label + " added.");
         }
         else
@@ -46,6 +49,8 @@ public class Graph {
             if(edge.isRed()){
                 edge.transformNeighbors();
                 edges.remove(edge);
+                if(edge.isRed())
+                    redEdges.remove(edge);
                 redSequence.add(edge);
                 if(edges.isEmpty()){
                     System.out.println("Graph empty");
@@ -72,6 +77,8 @@ public class Graph {
             color = getRandomColor(p);
             Edge edge = new Edge(name+i,color);
             this.edges.add(edge);
+            if(color == Color.RED)
+                this.redEdges.add(edge);
         }
         for(Edge edge1 : edges){
             for(Edge edge2 : edges){
@@ -91,6 +98,15 @@ public class Graph {
             return Color.BLUE;
     }
 
+    public void getSolution1(){
+        Edge edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+        while (edge != null){
+            this.deleteEdge(edge);
+            System.out.println(this);
+            edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -100,11 +116,14 @@ public class Graph {
             sb.append("\n");
         }
         sb.append(ANSI_RED);
-        sb.append("Red Sequence: [ ");
+        sb.append("Red Sequence de taille ");
+        sb.append(redSequence.size());
+        sb.append(": [ ");
         for(Edge e : redSequence){
             sb.append(e.getLabel()).append(" ");
         }
         sb.append(" ]");
+
         sb.append(ANSI_RESET);
         return sb.toString();
     }

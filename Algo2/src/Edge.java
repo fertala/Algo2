@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class Edge {
+public class Edge implements Comparable {
 
 
     Graph.Color color;
@@ -68,7 +68,7 @@ public class Edge {
     }
 
     public void changeColor(Graph.Color color) {
-        System.out.println(label + " old color : "+ this.color.name() + " new color " + color.name());
+        //System.out.println(label + " old color : "+ this.color.name() + " new color " + color.name());
         this.color = color;
     }
 
@@ -99,7 +99,9 @@ public class Edge {
         return outVertices.size() < 2;
     }
 
-
+    public int differenceOutVertices(){
+        return (int) (outVertices.stream().filter(Vertex::isRed).count()  -  outVertices.stream().filter(Vertex::isBlue).count());
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -135,5 +137,13 @@ public class Edge {
             sb.append(Graph.ANSI_RESET);
         }
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Edge compareToEdge = (Edge) o;
+        if(this.differenceOutVertices() == compareToEdge.differenceOutVertices()) return 0 ;
+        if(this.differenceOutVertices() > compareToEdge.differenceOutVertices()) return 1;
+        return -1;
     }
 }

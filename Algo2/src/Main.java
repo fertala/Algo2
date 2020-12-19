@@ -8,7 +8,7 @@ public class Main {
         public static void main(String... args) {
 
             Scanner sc= new Scanner(System.in);
-            graph.generateGraph(0.30,0.50);
+            graph.generateGraph(0.1,0.1);
             System.out.println("number of red edges : " +graph.edges.stream().filter(Edge::isRed).count());
             System.out.println("number of blue edges : " +graph.edges.stream().filter(Edge::isBlue).count());
             System.out.println("number of red vertex out  for first edge :" +graph.edges.get(0).outVertices.stream().filter(vertex -> vertex.isRed()).count());
@@ -18,7 +18,8 @@ public class Main {
                 System.out.println("2 - Delete edge");
                 System.out.println("3 - Add neighbor");
                 System.out.println("4 - Print Graph & Red sequence");
-                System.out.println("5 - Exit");
+                System.out.println("5 - solution avec les differences");
+                System.out.println("6 - Exit");
                 switch (sc.nextInt()) {
                     case 1 :
                         while(true) {
@@ -59,8 +60,11 @@ public class Main {
                         break;
 
                     case 5 :
-                        return ;
+                        graph.getSolution1();
+                        break;
 
+                    case 6:
+                        return;
                 }
             }
         }
