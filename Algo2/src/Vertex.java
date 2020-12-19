@@ -157,9 +157,9 @@ public class Vertex implements Comparable {
 
     public int comparing(Object o) {
         Vertex compareToVertex = (Vertex) o;
-        if(this.outVertices() == compareToVertex.outVertices()==false) return 0 ;
-        if(this.outVertices()==true && compareToVertex.outVertices()==false) return 1;
-        if(this.outVertices() == compareToVertex.outVertices()==true) return 1 ;
+        if(!(this.outVertices() == compareToVertex.outVertices())) return 0 ;
+        if(this.outVertices() && !compareToVertex.outVertices()) return 1;
+        if(this.outVertices() == compareToVertex.outVertices()) return 1 ;
         return -1;
     }
 
