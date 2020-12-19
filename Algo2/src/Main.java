@@ -59,7 +59,7 @@ public class Main {
                             break;
 
                         case 5:
-                            System.out.println(graph.getAverageOnXExec(100, 10000, 0.1, 0.1, 1));
+                            System.out.println(graph.getAverageOnXExec(100, 1, 0.1, 0.1, 1));
                             break;
                             //return;
 

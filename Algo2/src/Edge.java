@@ -68,7 +68,7 @@ public class Edge {
     }
 
     public void changeColor(Graph.Color color) {
-        System.out.println(label + " old color : "+ this.color.name() + " new color " + color.name());
+        //System.out.println(label + " old color : "+ this.color.name() + " new color " + color.name());
         this.color = color;
     }
 
@@ -148,7 +148,7 @@ public class Edge {
     public int getCountRedOutDegree() {
         int count = 0;
         for(Vertex v : outVertices){
-            if (v.isRed() && v.getNeighbor().isRed()) count++;
+            if (v.isRed()) count++;
         }
         return  count;
     }

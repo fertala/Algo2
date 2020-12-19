@@ -49,6 +49,7 @@ public class Graph {
             avg += getRedSequence();
             i++;
         }
+        System.out.println(avg);
         return avg / t;
     }
     public void addNeighbor(String edge, String neighbor, Graph.Color vertexColor) {
