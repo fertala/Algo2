@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +44,7 @@ public class Graph {
         while(i < t) {
             generateGraph(pRedEdge, pRedVertex);
             if(solution == 1) {
-                getHillClimbingRedSequence();
+                solution1();
             }
             avg += getRedSequence();
             i++;
@@ -116,7 +115,7 @@ public class Graph {
         }
     }
 
-    public List<Edge> getHillClimbingRedSequence(){
+    public List<Edge> solution1(){
         List<Edge> edgesRes = new ArrayList<>();
         List<Edge> bestRed = new ArrayList<>();
         List<Edge> bestOnes;
