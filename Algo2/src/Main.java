@@ -74,7 +74,7 @@ public class Main {
 
                             case 5 :
                                 System.out.println("Choose a solution to exec: ");
-                                System.out.println(graph.getAverageOnXExec(100, 1000, 0.1, 0.1, sc.nextInt()));
+                                System.out.println(graph.getAverageOnXExec(100, 100, 0.1, 0.1, sc.nextInt()));
                                 break;
 
                         }

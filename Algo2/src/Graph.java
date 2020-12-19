@@ -50,6 +50,10 @@ public class Graph {
             if(solution == 3) {
                 solution3();
             }
+
+            if(solution == 5) {
+                solution5();
+            }
             avg += getRedSequence();
             i++;
         }
@@ -144,6 +148,15 @@ public class Graph {
         while(true){
            Edge candidate =  edges.stream().filter(Edge::isRed).min(Comparator.comparingInt(Edge::getCountBlueOutDegree)).orElse(null);
            if (candidate == null) break;
+            deleteEdge(candidate);
+        }
+    }
+
+    public void solution5(){
+        while(true){
+            Edge candidate =  edges.stream().filter(Edge::isRed).max(Comparator.comparingInt(Edge::getCountRedOutDegree)).orElse(null);
+            if (candidate == null) break;
+            deleteEdge(candidate);
         }
     }
     @Override
