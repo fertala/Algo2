@@ -99,12 +99,25 @@ public class Graph {
     }
 
     public void getSolution1(){
-        Edge edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+        Edge edge ;
+        edge  = bestEdge();
         while (edge != null){
             this.deleteEdge(edge);
             System.out.println(this);
-            edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+            edge  = bestEdge();
         }
+    }
+
+    public Edge bestEdge(){
+        //Edge edge  = findZeroOut();
+       // if(edge == null)
+        Edge edge = this.edges.stream().filter(Edge::isRed).sorted(Edge::compareTo).findFirst().orElse(null);
+        return edge ;
+    }
+
+
+    public Edge findZeroOut(){
+        return this.edges.stream().filter(Edge::isRed).filter(Edge::zeroOut).findFirst().orElse(null);
     }
 
     @Override

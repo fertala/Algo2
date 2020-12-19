@@ -3,7 +3,20 @@ import java.util.Scanner;
 
 public class Main {
     static Graph graph = new Graph();
-
+        public static void MainCaller(){
+            graph = new Graph();
+            main(null);
+        }
+        public static void launche10times(){
+            int val = 0 ;
+            for(int i = 0 ; i <10 ;i++ ){
+                graph = new Graph();
+                graph.generateGraph(0.1,0.1);
+                graph.getSolution1();
+                val += graph.redSequence.size();
+            }
+            System.out.println("au bout de 10 execution on a : "+(val/10));
+        }
 
         public static void main(String... args) {
 
@@ -19,7 +32,10 @@ public class Main {
                 System.out.println("3 - Add neighbor");
                 System.out.println("4 - Print Graph & Red sequence");
                 System.out.println("5 - solution avec les differences");
-                System.out.println("6 - Exit");
+                System.out.println("6 - restart");
+                System.out.println("7 - launch 10 times");
+
+                System.out.println("8 - Exit");
                 switch (sc.nextInt()) {
                     case 1 :
                         while(true) {
@@ -62,8 +78,13 @@ public class Main {
                     case 5 :
                         graph.getSolution1();
                         break;
-
-                    case 6:
+                    case 8:
+                        return;
+                    case 6 :
+                        Main.MainCaller();
+                        return;
+                    case 7 :
+                        launche10times();
                         return;
                 }
             }

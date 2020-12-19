@@ -86,7 +86,9 @@ public class Edge implements Comparable {
             System.out.println(edge.getLabel() + " already neighbor");
         }
 
-
+    public boolean zeroOut(){
+        return this.outVertices.size() == 0 ;
+    }
     private void addInNeighbor(Edge e) {
         inEdges.add(e);
     }
