@@ -15,8 +15,6 @@ public class Vertex implements Comparable {
         this.color = color;
     }
 
-
-
     public boolean isRed() {
         return color == Graph.Color.RED;
     }
@@ -69,30 +67,6 @@ public class Vertex implements Comparable {
     public int differenceOutEdges(){
         return (int) (outEdges.stream().filter(Edge::isRed).count()  -  outEdges.stream().filter(Edge::isBlue).count());
     }
-
-    public int impact(){
-        int goodImpact = 0;
-        for(Edge e : outEdges){
-            if(e.isRed() && e.isBlueNeighbor()){
-                goodImpact += 50;
-            }
-            if(e.isBlue() && e.isRedNeighbor()){
-                goodImpact += 0;
-            }
-            if(e.isBlue() && e.isBlueNeighbor()){
-                goodImpact += 100;
-            }
-            if(e.isRed() && e.isRedNeighbor()){
-                goodImpact += -50;
-            }
-        }
-        if(outEdges.isEmpty()){
-            return 1000000000;
-        }
-       return goodImpact / outEdges.size();
-    }
-
-
 
     @Override
     public boolean equals(Object o) {

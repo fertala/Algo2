@@ -134,14 +134,6 @@ public class Graph {
         }
     }
 
-    public void heuristic3(){
-        while(true){
-            Vertex candidate =  vertices.stream().filter(Vertex::isRed).max(Comparator.comparingInt(Vertex::impact)).orElse(null);
-            if (candidate == null) break;
-            deleteEdge(candidate);
-        }
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

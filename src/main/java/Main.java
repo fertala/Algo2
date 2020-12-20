@@ -150,8 +150,6 @@ public class Main {
                     int heuristicNo = sc.nextInt();
                     System.out.println("Size of the red sequence: " + graph.runHeuristic(heuristicNo));
                     break;
-
-
                 case 8:
                     return;
             }
