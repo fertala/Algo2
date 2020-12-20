@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -54,22 +55,27 @@ public class Main {
                     System.out.println();
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet sheet = workbook.createSheet("Heuristic " + sol);
-                    double pRedVertex = 0;
                     int rowCount = 0;
                     int i = 0;
-                    while (pRedVertex <= 1.00) {
+                    double[] pZeroToOne = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1};
+                    Row topRow = sheet.createRow(0);
+                    Cell topCell = topRow.createCell(0);
+                    topCell.setCellValue("p | q ->");
+                    for (double p :pZeroToOne) {
+                        Cell cell = topRow.createCell(++rowCount);
+                        cell.setCellValue(String.format(Locale.ROOT, "%.1f",p));
+                    }
+                    rowCount = 0;
+                    for (double p : pZeroToOne) {
                         System.out.println("STEP "+i+++"/10");
                         Row row = sheet.createRow(++rowCount);
                         int columnCount = 0;
                         Cell head = row.createCell(columnCount);
-                        head.setCellValue(pRedVertex);
-                        double qRedEdge = 0;
-                        while (qRedEdge <= 1.00) {
+                        head.setCellValue(String.format(Locale.ROOT, "%.1f",p));
+                        for (double q : pZeroToOne) {
                             Cell cell = row.createCell(++columnCount);
-                            cell.setCellValue(graph.runHeuristicXTimes(vert, lp, pRedVertex, qRedEdge, sol));
-                            qRedEdge += 0.1;
+                            cell.setCellValue(String.format(Locale.ROOT, "%.2f", graph.runHeuristicXTimes(vert, lp, p, q, sol)));
                         }
-                        pRedVertex += 0.1;
                     }
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                     LocalDateTime now = LocalDateTime.now();
